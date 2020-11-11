@@ -1,5 +1,10 @@
+const userResolvers = require('./userResolvers');
+
 module.exports = {
   Query: {
-    sayHi: () => 'hello world'
+    ...userResolvers.Query
+  },
+  Mutation: {
+    ...userResolvers.Mutation
   }
 }

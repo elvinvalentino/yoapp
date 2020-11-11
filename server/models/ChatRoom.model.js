@@ -1,12 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const ChatRoomSchema = new Schema({
-  users: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'User'
-    }
-  ],
+  users: [String],
   messages: [
     {
       username: {
