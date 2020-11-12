@@ -1,8 +1,9 @@
+const { UserInputError } = require('apollo-server-express');
 const bcrypt = require('bcryptjs');
 
 const User = require('../../models/User.model');
-const { throwError } = require('../../utils/');
-const { registerInputSchema } = require('../../utils/validator');
+const { throwSchemaError } = require('../../utils/errors/');
+const { registerInputSchema } = require('../../utils/validators/');
 
 module.exports = {
   Query: {
@@ -17,16 +18,26 @@ module.exports = {
   },
   Mutation: {
     register: async (_, { userRegisterInput }) => {
-      try {
-        const newUser = await registerInputSchema.validate(userRegisterInput, { abortEarly: false });
-        newUser.password = await bcrypt.hash(newUser.password, 10);
+      // Validate request body
+      const newUser = await registerInputSchema.validate(userRegisterInput, {
+        abortEarly: false
+      }).catch(err => throwSchemaError(err));
 
-        const user = new User(newUser);
-        const response = await user.save();
-        return response;
-      } catch (err) {
-        throwError(err);
+      // Check if email already exist
+      const isExist = await User.findOne({ email: newUser.email });
+      if (isExist) {
+        throw new UserInputError('User input test', {
+          errors: {
+            email: 'email is already taken'
+          }
+        });
       }
+
+      newUser.password = await bcrypt.hash(newUser.password, 10);
+
+      const user = new User(newUser);
+      const response = await user.save();
+      return response;
     }
   }
 }
