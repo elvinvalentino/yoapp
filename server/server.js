@@ -1,31 +1,35 @@
-const express = require('express');
-const { ApolloServer } = require('apollo-server-express');
+const { ApolloServer } = require('apollo-server');
 const mongoose = require('mongoose');
-const app = express();
 const port = process.env.PORT || 5000;
 require('dotenv').config();
 
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
+const context = require('./graphql/context');
 
 // Initiate Grapghql
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => ({ req })
+  context
 });
 
-// Connect Mongo
-const mongoUri = process.env.MONGO_URI;
-mongoose.connect(mongoUri, {
-  useCreateIndex: true,
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log('Mongodb connected');
-  server.applyMiddleware({ app });
-  app.listen(port, () => console.log(`Graphql run on http://localhost:${port}/graphql`));
-})
+server.listen({ port }).then(({ url, subscriptionsUrl }) => {
+  console.log(`Server ready at ${url}`)
+  console.log(`Subscription ready at ${subscriptionsUrl}`)
+
+  // Connect Mongo
+  const mongoUri = process.env.MONGO_URI;
+  mongoose.connect(mongoUri, {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }).then(() => {
+    console.log('MongoDB Connected...')
+  }).catch(err => console.error(err));
+});
+
+
 
 
 

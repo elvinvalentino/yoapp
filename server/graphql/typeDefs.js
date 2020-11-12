@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server-express');
+const { gql } = require('apollo-server');
 
 module.exports = gql`
   input UserRegisterInput{
@@ -8,6 +8,11 @@ module.exports = gql`
     confirmPassword: String!
   }
 
+  input UserLoginInput{
+    email: String!
+    password: String!
+  }
+
   type User{
     id: ID!
     username: String!
@@ -15,11 +20,27 @@ module.exports = gql`
     token: String
   }
 
+  type Message{
+    id: ID!
+    username: String!
+    body: String!
+    createdAt: String!
+  }
+
+  type ChatList{
+    id: ID!
+    user: User!
+    lastMessage: Message
+  }
+
   type Query{
     users: [User]!
+    chatList: [ChatList]!
+    messages(userId: ID!): [Message]!
   }
 
   type Mutation{
-    register(userRegisterInput: UserRegisterInput): User!
+    register(userRegisterInput: UserRegisterInput!): User!
+    login(userLoginInput: UserLoginInput!): User!
   }
 `;
