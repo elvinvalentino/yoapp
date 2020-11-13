@@ -18,8 +18,9 @@ const ChatRoomSchema = new Schema({
         required: true
       },
       createdAt: {
-        type: String,
-        required: true
+        type: Date,
+        required: true,
+        default: Date.now
       },
       seenBy: [String]
     }

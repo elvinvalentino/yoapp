@@ -13,7 +13,7 @@ module.exports = {
       const response = chatList.map(chat => ({
         id: chat._id,
         user: chat.users.find(u => u.id != user.id),
-        lastMessage: chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : { username: '', body: 'Start a chat' },
+        lastMessage: chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : { username: '', body: 'Start a chat', createdAt: '' },
       }));
 
       return response;
@@ -32,6 +32,25 @@ module.exports = {
       const response = chatRoom.messages;
 
       return response;
+    })
+  },
+  Mutation: {
+    sendMessage: combine(isAuthenticated, async (_, { userId, body }, { user }) => {
+      const chatRoom = await ChatRoom.findOne({ users: { $all: [userId, user.id] } });
+
+      chatRoom.messages.push({
+        username: user.username,
+        body,
+      })
+
+      let response = await chatRoom.save();
+      response = response.messages[response.messages.length - 1];
+      return {
+        id: response._id,
+        username: response.username,
+        body: response.body,
+        createdAt: response.createdAt
+      };
     })
   }
 }
