@@ -21,6 +21,13 @@ module.exports = gql`
   }
 
   type Message{
+    roomId: ID!
+    users: [ID]!
+    messages: [MessageDetail]!
+    message: MessageDetail
+  }
+
+  type MessageDetail{
     id: ID!
     username: String!
     body: String!
@@ -30,18 +37,22 @@ module.exports = gql`
   type ChatList{
     id: ID!
     user: User!
-    lastMessage: Message
+    lastMessage: MessageDetail!
   }
 
   type Query{
     users: [User]!
     chatList: [ChatList]!
-    messages(userId: ID!): [Message]!
+    messages(userId: ID!): Message
   }
 
   type Mutation{
     register(userRegisterInput: UserRegisterInput!): User!
     login(userLoginInput: UserLoginInput!): User!
-    sendMessage(userId: ID!, body: String!): Message!
+    sendMessage(userId: ID!, body: String!): MessageDetail!
+  }
+
+  type Subscription{
+    newMessage(userId: ID!): Message!
   }
 `;

@@ -1,4 +1,5 @@
 const { combineResolvers: combine } = require('graphql-resolvers');
+const { withFilter, AuthenticationError } = require('apollo-server')
 
 const { isAuthenticated } = require('../middleware/authMiddleware');
 const ChatRoom = require('../../models/ChatRoom.model');
@@ -29,13 +30,17 @@ module.exports = {
         chatRoom = await newChatRoom.save();
       }
 
-      const response = chatRoom.messages;
+      const response = {
+        roomId: chatRoom._id,
+        users: chatRoom.users,
+        messages: chatRoom.messages
+      };
 
       return response;
     })
   },
   Mutation: {
-    sendMessage: combine(isAuthenticated, async (_, { userId, body }, { user }) => {
+    sendMessage: combine(isAuthenticated, async (_, { userId, body }, { user, pubsub }) => {
       const chatRoom = await ChatRoom.findOne({ users: { $all: [userId, user.id] } });
 
       chatRoom.messages.push({
@@ -44,7 +49,18 @@ module.exports = {
       })
 
       let response = await chatRoom.save();
+
+
+      pubsub.publish('NEW_MESSAGE', {
+        newMessage: {
+          roomId: response._id,
+          users: response.users,
+          message: response.messages[response.messages.length - 1]
+        }
+      })
+
       response = response.messages[response.messages.length - 1];
+
       return {
         id: response._id,
         username: response.username,
@@ -52,5 +68,16 @@ module.exports = {
         createdAt: response.createdAt
       };
     })
+  },
+  Subscription: {
+    newMessage: {
+      subscribe: withFilter(
+        (_, __, { user, pubsub }) => {
+          if (!user) throw new AuthenticationError("Unauthorized");
+          return pubsub.asyncIterator("NEW_MESSAGE");
+        },
+        ({ newMessage }, _, { user }) => newMessage.users.includes(user.id)
+      )
+    }
   }
 }
