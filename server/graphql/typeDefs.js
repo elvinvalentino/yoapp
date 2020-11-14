@@ -21,38 +21,33 @@ module.exports = gql`
   }
 
   type Message{
-    roomId: ID!
-    users: [ID]!
-    messages: [MessageDetail]!
-    message: MessageDetail
-  }
-
-  type MessageDetail{
     id: ID!
     username: String!
     body: String!
     createdAt: String!
   }
 
-  type ChatList{
+  type ChatRoom{
     id: ID!
-    user: User!
-    lastMessage: MessageDetail!
+    users: [User]!
+    messages: [Message]!
+    from: User!
+    lastMessage: Message!
   }
 
   type Query{
     users: [User]!
-    chatList: [ChatList]!
-    messages(userId: ID!): Message
+    chatList: [ChatRoom]!
+    messages(userId: ID!): ChatRoom!
   }
 
   type Mutation{
     register(userRegisterInput: UserRegisterInput!): User!
     login(userLoginInput: UserLoginInput!): User!
-    sendMessage(userId: ID!, body: String!): MessageDetail!
+    sendMessage(userId: ID!, body: String!): ChatRoom!
   }
 
   type Subscription{
-    newMessage(userId: ID!): Message!
+    newMessage: ChatRoom!
   }
 `;

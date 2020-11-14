@@ -28,8 +28,3 @@ server.listen({ port }).then(({ url, subscriptionsUrl }) => {
     console.log('MongoDB Connected...')
   }).catch(err => console.error(err));
 });
-
-
-
-
-

@@ -7,20 +7,14 @@ const ChatRoom = require('../../models/ChatRoom.model');
 module.exports = {
   Query: {
     chatList: combine(isAuthenticated, async (_, __, { user }) => {
-      const chatList = await ChatRoom.find({ users: user.id })
+      const chatRoom = await ChatRoom.find({ users: user.id })
         .sort('-updatedAt')
-        .populate('users', '-password');
+        .populate('users');
 
-      const response = chatList.map(chat => ({
-        id: chat._id,
-        user: chat.users.find(u => u.id != user.id),
-        lastMessage: chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : { username: '', body: 'Start a chat', createdAt: '' },
-      }));
-
-      return response;
+      return chatRoom;
     }),
     messages: combine(isAuthenticated, async (_, { userId }, { user }) => {
-      let chatRoom = await ChatRoom.findOne({ users: { $all: [userId, user.id] } });
+      let chatRoom = await ChatRoom.findOne({ users: { $all: [userId, user.id] } }).populate('users');
 
       // Create chat room if room doesn't exists
       if (!chatRoom) {
@@ -30,13 +24,7 @@ module.exports = {
         chatRoom = await newChatRoom.save();
       }
 
-      const response = {
-        roomId: chatRoom._id,
-        users: chatRoom.users,
-        messages: chatRoom.messages
-      };
-
-      return response;
+      return chatRoom;
     })
   },
   Mutation: {
@@ -48,25 +36,13 @@ module.exports = {
         body,
       })
 
-      let response = await chatRoom.save();
-
+      const newChatroom = await (await chatRoom.save()).populate('users').execPopulate();
 
       pubsub.publish('NEW_MESSAGE', {
-        newMessage: {
-          roomId: response._id,
-          users: response.users,
-          message: response.messages[response.messages.length - 1]
-        }
+        newMessage: newChatroom
       })
 
-      response = response.messages[response.messages.length - 1];
-
-      return {
-        id: response._id,
-        username: response.username,
-        body: response.body,
-        createdAt: response.createdAt
-      };
+      return newChatroom;
     })
   },
   Subscription: {
@@ -76,7 +52,7 @@ module.exports = {
           if (!user) throw new AuthenticationError("Unauthorized");
           return pubsub.asyncIterator("NEW_MESSAGE");
         },
-        ({ newMessage }, _, { user }) => newMessage.users.includes(user.id)
+        ({ newMessage }, _, { user }) => newMessage.users.some(u => u._id == user.id)
       )
     }
   }
