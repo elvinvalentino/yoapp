@@ -4,11 +4,14 @@ import './styles/index.css';
 
 import App from './App';
 import ThemeProvider from './styles/Theme';
+import ApolloProvider from './graphql/ApolloProvider';
 
 ReactDOM.render(
-  <ThemeProvider>
-    <App />
-  </ThemeProvider>,
+  <ApolloProvider>
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  </ApolloProvider>,
   document.getElementById('root')
 );
 

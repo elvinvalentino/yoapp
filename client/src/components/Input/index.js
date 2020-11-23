@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { css } from '@emotion/css';
+import { css, cx } from '@emotion/css';
 import { useTheme } from '@emotion/react';
 
-const Input = ({ onChange, label, value, type, name }) => {
+const Input = ({ onChange, label, value, type, name, error }) => {
   const theme = useTheme();
 
   const styles = {
@@ -22,10 +22,24 @@ const Input = ({ onChange, label, value, type, name }) => {
         border-bottom: 1px solid ${theme.color.primary.dark};
       }
 
-      &.focus ~ label {
+      &.focus.error, &.error{
+        border-bottom: 1px solid red;
+      }
+
+      &.error ~ label {
+        color: red;
+      }
+
+      &.focus ~ label{
         top: 0;
         font-size: .8em;
         color: ${theme.color.primary.dark};
+      }
+
+      &.focus.error ~ label {
+        top: 0;
+        font-size: .8em;
+        color: red;
       }
     `,
     label: css`
@@ -38,6 +52,13 @@ const Input = ({ onChange, label, value, type, name }) => {
       font-size: 1em;
       font-weight: 400;
       transition: 300ms;
+    `,
+    error: css`
+      position: absolute;
+      left: 0;
+      bottom: -18px;
+      font-size: .8em;
+      color: red;
     `
   }
 
@@ -52,8 +73,20 @@ const Input = ({ onChange, label, value, type, name }) => {
 
   return (
     <>
-      <input className={styles.input} type={type} value={value} name={name} onChange={onChange} onFocus={handleFocus} onBlur={handleBlur} />
+      <input
+        className={cx(styles.input, {
+          'error': error && Boolean(error[name]),
+          'focus': Boolean(value)
+        })}
+        type={type}
+        value={value}
+        name={name}
+        onChange={onChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+      />
       <label className={styles.label}>{label}</label>
+      {error && error[name] && <span className={styles.error}>{error[name]}</span>}
     </>
   )
 }
@@ -64,6 +97,7 @@ Input.propTypes = {
   value: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  error: PropTypes.object
 }
 
 export default Input;

@@ -10,15 +10,5 @@ export const useForm = initialState => {
     }));
   }
 
-  const handleOnSubmit = e => {
-    let childrens = [...e.target.children];
-    childrens = childrens.slice(0, -1);
-    childrens.forEach(child => {
-      const input = child.children[0];
-      input.classList.contains('focus') && input.classList.remove('focus');
-    });
-    setFormData(initialState);
-  }
-
-  return { formData, handleOnChange, handleOnSubmit };
+  return { formData, handleOnChange };
 }

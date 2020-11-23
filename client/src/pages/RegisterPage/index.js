@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '@emotion/react';
+import { useMutation } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 import * as styles from './registerPage.styles';
 import Container from '../../layouts/Container';
@@ -8,20 +10,31 @@ import FormGroup from '../../components/FormGroup';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useForm } from '../../hooks';
+import { REGISTER_MUTATION } from '../../graphql/Mutations/AuthMutation';
 
 const RegisterPage = () => {
   const theme = useTheme();
-  const { formData, handleOnChange, handleOnSubmit } = useForm({
+  const [err, setErr] = useState(null);
+  const history = useHistory();
+  const { formData, handleOnChange } = useForm({
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
+  const [register] = useMutation(REGISTER_MUTATION, {
+    variables: formData,
+    update: () => {
+      history.push('/signin');
+    },
+    onError: err => {
+      setErr(err.graphQLErrors[0].extensions.errors)
+    }
+  });
 
   const handleOnSubmitForm = e => {
     e.preventDefault();
-    console.log(formData);
-    handleOnSubmit(e);
+    register();
   }
 
   return (
@@ -36,6 +49,7 @@ const RegisterPage = () => {
               name="username"
               onChange={handleOnChange}
               value={formData.username}
+              error={err}
             />
           </FormGroup>
           <FormGroup>
@@ -45,6 +59,7 @@ const RegisterPage = () => {
               name="email"
               onChange={handleOnChange}
               value={formData.email}
+              error={err}
             />
           </FormGroup>
           <FormGroup>
@@ -54,6 +69,7 @@ const RegisterPage = () => {
               name="password"
               onChange={handleOnChange}
               value={formData.password}
+              error={err}
             />
           </FormGroup>
           <FormGroup>
@@ -63,6 +79,7 @@ const RegisterPage = () => {
               name="confirmPassword"
               onChange={handleOnChange}
               value={formData.confirmPassword}
+              error={err}
             />
           </FormGroup>
           <Button fluid className={styles.button}>SIGN UP</Button>

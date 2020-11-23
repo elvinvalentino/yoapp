@@ -18,6 +18,7 @@ const LoginPage = () => {
   });
 
   const handleOnSubmitForm = e => {
+    e.preventDefault();
     console.log(formData);
     handleOnSubmit(e);
   }
@@ -25,7 +26,7 @@ const LoginPage = () => {
     <Container justifyContent='center'>
       <Card className={styles.card}>
         <img src={HeroLogin} className={styles.hero} alt="hero login" />
-        <div className="login-form" className={styles.form}>
+        <div className={styles.form}>
           <h1 className={styles.header(theme)}>SIGN IN</h1>
           <form onSubmit={handleOnSubmitForm}>
             <FormGroup>
