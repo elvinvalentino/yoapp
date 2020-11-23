@@ -16,7 +16,7 @@ export const NavbarBrand = styled(Link)`
   color: ${({ theme }) => theme.color.primary.dark};
   font-family: 'Saira', sans-serif;
   font-weight: 600;
-  font-size: 2em;
+  font-size: 2.5em;
   text-decoration: none;
 `;
 

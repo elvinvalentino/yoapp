@@ -13,6 +13,12 @@ const Theme = ({ children }) => {
         light: "#FFDDF5",
         dark: "#FF8EDF"
       }
+    },
+    typography: {
+      family: {
+        roboto: '"Roboto", sans-serif',
+        saira: '"Saira", sans-serif'
+      }
     }
   }
 

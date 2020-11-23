@@ -8,11 +8,13 @@ const Button = ({
   children,
   big,
   mobileFluid,
+  fluid,
   gutterBottomMobile,
   gutterBottom,
   gutterRightMobile,
   gutterRight,
-  style
+  style,
+  className
 }) => {
   const theme = useTheme();
 
@@ -26,6 +28,7 @@ const Button = ({
     font-size: 1em;
     cursor: pointer;
     font-family: 'Saira', sans-serif;
+    width: ${fluid ? '100%' : 'auto'};
     @media (max-width: 700px){
       width: ${mobileFluid ? '100%' : 'auto'};
       margin-bottom: ${gutterBottomMobile ? '0.5em' : ''};
@@ -35,16 +38,12 @@ const Button = ({
   `;
 
   const btnPrimary = css`
+    border: 1px solid ${theme.color.primary.dark};
     background-color: ${theme.color.primary.dark};
     color: #fff;
-    border: none;
     &:hover{
       background-color: ${theme.color.primary.light};
     }
-    ${'' /* & > a{
-      text-decoration: none;
-      color: #fff;
-    } */}
   `;
 
   const btnOutlinePrimary = css`
@@ -55,24 +54,19 @@ const Button = ({
       background-color: ${theme.color.primary.dark};
       color: #fff;
     }
-    ${'' /* & > a{
-      text-decoration: none;
-      color: ${theme.color.primary.dark};
-    }
-    & > a:hover{
-      color: #fff;
-    } */}
   `;
 
-  const className = cx(
-    btnStyle, {
-    [btnPrimary]: !outlined,
-    [btnOutlinePrimary]: outlined
-  }
+  const classNameRoot = cx(
+    btnStyle,
+    className,
+    {
+      [btnPrimary]: !outlined,
+      [btnOutlinePrimary]: outlined
+    }
   )
 
   return (
-    <button style={style} className={className}>
+    <button style={style} className={classNameRoot}>
       {children}
     </button>
   )
@@ -87,6 +81,7 @@ Button.propTypes = {
   style: PropTypes.object,
   big: PropTypes.bool,
   mobileFluid: PropTypes.bool,
+  fluid: PropTypes.bool,
   gutterBottom: PropTypes.bool,
   gutterBottomMobile: PropTypes.bool,
   gutterRight: PropTypes.bool,
