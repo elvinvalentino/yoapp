@@ -38,7 +38,7 @@ const Input = ({ onChange, label, value, type, name, error }) => {
 
       &.focus.error ~ label {
         top: 0;
-        font-size: .8em;
+        font-size: .85em;
         color: red;
       }
     `,
@@ -56,8 +56,8 @@ const Input = ({ onChange, label, value, type, name, error }) => {
     error: css`
       position: absolute;
       left: 0;
-      bottom: -18px;
-      font-size: .8em;
+      bottom: -16px;
+      font-size: .75em;
       color: red;
     `
   }

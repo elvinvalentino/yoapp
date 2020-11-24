@@ -1,7 +1,7 @@
 import { css } from '@emotion/css';
 
 export const card = css`
-  margin: 2em auto 0;
+  margin: 0.8em auto 0;
   width: 500px;
 `;
 

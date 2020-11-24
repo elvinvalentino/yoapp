@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const FormGroup = ({ children }) => {
   const style = css`
-    margin-bottom: 1.8em;
+    margin-bottom: 2em;
     position: relative;
   `;
   return (

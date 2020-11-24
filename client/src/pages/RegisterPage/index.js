@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTheme } from '@emotion/react';
 import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import * as styles from './registerPage.styles';
 import Container from '../../layouts/Container';
@@ -11,20 +12,31 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useForm } from '../../hooks';
 import { REGISTER_MUTATION } from '../../graphql/Mutations/AuthMutation';
+import { CREATE_FLASH_MESSAGE } from '../../redux/constants';
 
 const RegisterPage = () => {
-  const theme = useTheme();
   const [err, setErr] = useState(null);
+
+  const dispatch = useDispatch();
+  const theme = useTheme();
   const history = useHistory();
+
   const { formData, handleOnChange } = useForm({
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
+
   const [register] = useMutation(REGISTER_MUTATION, {
     variables: formData,
     update: () => {
+      dispatch({
+        type: CREATE_FLASH_MESSAGE,
+        payload: {
+          message: "Account Registered"
+        }
+      })
       history.push('/signin');
     },
     onError: err => {

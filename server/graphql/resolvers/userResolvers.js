@@ -51,14 +51,14 @@ module.exports = {
       const user = await User.findOne({ email });
       if (!user) throw new UserInputError('email not found', {
         errors: {
-          email: 'email not found'
+          email: 'Email not found'
         }
       });
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) throw new UserInputError('Wrong credentials', {
         errors: {
-          password: 'wrong credentials'
+          password: 'Wrong credentials'
         }
       });
 

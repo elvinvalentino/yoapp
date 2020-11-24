@@ -19,3 +19,20 @@ export const REGISTER_MUTATION = gql`
     }
 }
 `;
+
+export const LOGIN_MUTATION = gql`
+  mutation login(
+    $email: String!,
+    $password: String!
+  ){
+    login(userLoginInput: {
+      email: $email
+      password: $password
+    }){
+      id
+      username
+      email
+      token
+    }
+}
+`;
