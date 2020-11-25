@@ -12,7 +12,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useForm } from '../../hooks';
 import { REGISTER_MUTATION } from '../../graphql/Mutations/AuthMutation';
-import { CREATE_FLASH_MESSAGE } from '../../redux/constants';
+import { createFlashMessage } from '../../redux/actions/flashMessageAction';
 
 const RegisterPage = () => {
   const [err, setErr] = useState(null);
@@ -31,12 +31,7 @@ const RegisterPage = () => {
   const [register] = useMutation(REGISTER_MUTATION, {
     variables: formData,
     update: () => {
-      dispatch({
-        type: CREATE_FLASH_MESSAGE,
-        payload: {
-          message: "Account Registered"
-        }
-      })
+      dispatch(createFlashMessage("Account Registered"));
       history.push('/signin');
     },
     onError: err => {
@@ -94,7 +89,7 @@ const RegisterPage = () => {
               error={err}
             />
           </FormGroup>
-          <Button fluid className={styles.button}>SIGN UP</Button>
+          <Button fluid mobileFluid className={styles.button}>SIGN UP</Button>
         </form>
       </Card>
     </Container>

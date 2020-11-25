@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { css, cx } from '@emotion/css';
 import { useTheme } from '@emotion/react';
 
 const Input = ({ onChange, label, value, type, name, error }) => {
+  const [isFocus, setIsFocus] = useState(false);
   const theme = useTheme();
 
   const styles = {
@@ -32,7 +33,7 @@ const Input = ({ onChange, label, value, type, name, error }) => {
 
       &.focus ~ label{
         top: 0;
-        font-size: .8em;
+        font-size: .85em;
         color: ${theme.color.primary.dark};
       }
 
@@ -62,21 +63,16 @@ const Input = ({ onChange, label, value, type, name, error }) => {
     `
   }
 
-  const handleFocus = e => {
-    e.target.classList.add('focus');
-  }
+  const handleFocus = () => setIsFocus(true);
 
-  const handleBlur = e => {
-    if (e.target.value === '')
-      e.target.classList.remove('focus');
-  }
+  const handleBlur = () => setIsFocus(false);
 
   return (
     <>
       <input
         className={cx(styles.input, {
           'error': error && Boolean(error[name]),
-          'focus': Boolean(value)
+          'focus': isFocus || Boolean(value)
         })}
         type={type}
         value={value}

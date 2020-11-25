@@ -10,12 +10,11 @@ const FlashMessageReducer = (state = initialState, action) => {
 
   switch (action.type) {
     case CREATE_FLASH_MESSAGE:
-      const { message } = action.payload;
       return {
         ...state,
         isOpen: true,
         isAnimated: true,
-        message,
+        message: action.payload,
       }
     case CLOSE_FLASH_MESSAGE:
       return {

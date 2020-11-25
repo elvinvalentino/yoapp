@@ -13,7 +13,8 @@ import Input from '../../components/Input';
 import FormGroup from '../../components/FormGroup';
 import { useForm } from '../../hooks';
 import { LOGIN_MUTATION } from '../../graphql/Mutations/AuthMutation';
-import { CREATE_FLASH_MESSAGE } from '../../redux/constants';
+import { createFlashMessage } from '../../redux/actions/flashMessageAction';
+import { login as loginAction, authError } from '../../redux/actions/authAction';
 
 const LoginPage = () => {
   const [err, setErr] = useState(null);
@@ -29,17 +30,14 @@ const LoginPage = () => {
 
   const [login] = useMutation(LOGIN_MUTATION, {
     variables: formData,
-    update: () => {
-      dispatch({
-        type: CREATE_FLASH_MESSAGE,
-        payload: {
-          message: "Logged In"
-        }
-      });
+    update: (_, { data: { login: userData } }) => {
+      dispatch(loginAction(userData));
+      dispatch(createFlashMessage('Logged In'));
       history.push('/chat')
     },
     onError: (err) => {
-      setErr(err.graphQLErrors[0].extensions.errors)
+      setErr(err.graphQLErrors[0].extensions.errors);
+      dispatch(authError());
     },
   })
 
@@ -74,7 +72,7 @@ const LoginPage = () => {
                 error={err}
               />
             </FormGroup>
-            <Button fluid className={styles.button}>SIGN IN</Button>
+            <Button fluid mobileFluid className={styles.button}>SIGN IN</Button>
           </form>
         </div>
       </Card>

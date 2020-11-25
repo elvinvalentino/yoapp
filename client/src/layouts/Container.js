@@ -24,7 +24,7 @@ const Container = ({
     }
 
     @media (max-width: 600px){
-      padding: 0 1.5em
+      padding: 0 .5em
     }
 
     @media (max-width: 1024px){

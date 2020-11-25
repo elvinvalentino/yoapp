@@ -14,6 +14,7 @@ export const Headline = styled.h1`
   width: 100%;
   line-height: 1.3em;
   margin: 0;
+  
   @media(max-width: 960px){
     font-size: 2.5em;
   }
@@ -31,12 +32,15 @@ export const SubHeadline = styled.h2`
 export const Hero = styled.div`
   width: 70%;
   text-align: right;
+
   @media(max-width: 1024px){
     order: 1;
     padding: 5em 0;
     width: 60%;
   }
+
   @media (max-width: 700px){
-    display: none; 
+    width: 80%;
+    padding-top: 0;
   }
 `;

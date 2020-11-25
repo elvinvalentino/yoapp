@@ -3,7 +3,7 @@ import { useTheme } from '@emotion/react';
 import { css, cx, keyframes } from '@emotion/css';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { CLOSE_FLASH_MESSAGE } from '../../redux/constants';
+import { closeFlashMessage } from '../../redux/actions/flashMessageAction';
 
 const Flash = () => {
   const { isOpen, message, isAnimated } = useSelector(state => state.flashMessage);
@@ -44,6 +44,11 @@ const Flash = () => {
       border-radius: 7px;
       background: ${theme.color.primary.dark};
       color: #fff;
+
+      
+      @media (max-width: 600px){
+        right: 1em;
+      }
     `,
     fadeIn: css`
       animation: ${animation.fadeIn} 300ms ease-in forwards;
@@ -54,7 +59,7 @@ const Flash = () => {
   }
 
   useEffect(() => {
-    isOpen && setTimeout(() => dispatch({ type: CLOSE_FLASH_MESSAGE }), 4000)
+    isOpen && setTimeout(() => dispatch(closeFlashMessage()), 4000)
   }, [dispatch, isOpen]);
 
   return (

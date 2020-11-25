@@ -11,8 +11,10 @@ import Chat from './pages/Chat';
 const App = () => {
   return (
     <Router>
-      <Navbar />
       <Flash />
+      <Route exact path='/' component={Navbar} />
+      <Route exact path='/signup' component={Navbar} />
+      <Route exact path='/signin' component={Navbar} />
       <Switch>
         <Route exact path='/' component={LandingPage} />
         <Route exact path='/signup' component={RegisterPage} />

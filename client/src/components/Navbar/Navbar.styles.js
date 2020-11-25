@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 export const Nav = styled.nav`
   padding-top: 2.5em;
   position: relative;
-  /* max-height: 100px */
   @media (max-width: 700px){
     transition: max-height .500ms;
-    max-height: ${({ isOpen }) => isOpen ? '1000px' : '90px'};
+    max-height: ${({ isOpen }) => isOpen ? '1000px' : '60px'};
     overflow: hidden;
+    padding-top: 1em;
   }
 `;
 
@@ -18,6 +18,10 @@ export const NavbarBrand = styled(Link)`
   font-weight: 600;
   font-size: 2.5em;
   text-decoration: none;
+
+  @media (max-width: 700px){
+    font-size: 2em;
+  }
 `;
 
 export const HamburgerButton = styled.button`
