@@ -6,7 +6,7 @@ import Flash from './components/Flash';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import Chat from './pages/Chat';
+import ChatPage from './pages/ChatPage';
 
 const App = () => {
   return (
@@ -19,7 +19,7 @@ const App = () => {
         <Route exact path='/' component={LandingPage} />
         <Route exact path='/signup' component={RegisterPage} />
         <Route exact path='/signin' component={LoginPage} />
-        <Route exact path='/chat' component={Chat} />
+        <Route exact path='/chat' component={ChatPage} />
       </Switch>
     </Router>
   )
