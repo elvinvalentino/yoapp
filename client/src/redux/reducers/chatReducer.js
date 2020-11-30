@@ -1,7 +1,8 @@
-import { SET_CHAT_LIST } from '../constants';
+import { SET_CHAT_LIST, SET_SELECTED_ROOM } from '../constants';
 
 const initialState = {
-  chatList: []
+  chatList: [],
+  selectedRoom: null
 }
 
 const chatReducer = (state = initialState, action) => {
@@ -10,6 +11,12 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         chatList: action.payload
+      }
+    case SET_SELECTED_ROOM:
+      const selectedRoom = state.chatList.find(chatRoom => chatRoom.id === action.payload);
+      return {
+        ...state,
+        selectedRoom
       }
     default:
       return state

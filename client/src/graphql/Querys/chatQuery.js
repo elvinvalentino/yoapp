@@ -7,6 +7,7 @@ export const GET_CHAT_LIST_QUERY = gql`
       from{
         id
         username
+        email
       }
       lastMessage{
         id

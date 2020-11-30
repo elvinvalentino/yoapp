@@ -7,20 +7,24 @@ import moment from 'moment';
 import ChatListItem from '../ChatListItem';
 import { GET_CHAT_LIST_QUERY } from '../../graphql/Querys/chatQuery';
 import { setChatList } from '../../redux/actions/chatAction';
+import NoChatList from '../NoChatList';
 
 const ChatList = () => {
   const { chatList } = useSelector(state => state.chat);
   const dispatch = useDispatch();
 
   const { loading } = useQuery(GET_CHAT_LIST_QUERY, {
+    fetchPolicy: "network-only",
     onCompleted: ({ chatList }) => dispatch(setChatList(chatList)),
-    onError: err => console.error(err)
+    onError: err => console.error(err),
   });
 
   const styles = {
     root: css`
       max-height: calc(100vh - 70px);
       overflow: auto;
+      position: relative;
+      height: 100%;
     `
   }
 
@@ -28,12 +32,21 @@ const ChatList = () => {
 
   return (
     <div className={styles.root}>
-      {chatList.map(chatList => (
-        <ChatListItem
-          username={chatList.from.username}
-          message={chatList.lastMessage.body}
-          time={moment.unix(chatList.lastMessage.createdAt / 1000).format('L')} />
-      ))}
+      {chatList.length > 0 ?
+        chatList.map(chatList => (
+          <ChatListItem
+            onClick={() => console.log('clicked')}
+            key={chatList.id}
+            roomId={chatList.id}
+            username={chatList.from.username}
+            message={chatList.lastMessage.body}
+            time={moment.unix(chatList.lastMessage.createdAt / 1000).format('L')}
+          />
+        ))
+        :
+        (
+          <NoChatList />
+        )}
     </div>
   )
 }

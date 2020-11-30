@@ -1,11 +1,9 @@
 import React from 'react';
 import { css, cx } from '@emotion/css';
-import { useSelector } from 'react-redux';
 
 import unknownProfile from '../../assets/unknownProfile.jpg';
 
-const UserProfile = ({ className }) => {
-  const { user } = useSelector(state => state.auth);
+const UserProfile = ({ className, username, email }) => {
 
   const styles = {
     root: css`
@@ -40,8 +38,8 @@ const UserProfile = ({ className }) => {
     <div className={cx(styles.root, className)}>
       <img className={styles.profileImage} src={unknownProfile} alt="unknown profile" />
       <div className={styles.profile}>
-        <span className={styles.username}>{user.username}</span>
-        <span className={styles.email}>{user.email}</span>
+        <span className={styles.username}>{username}</span>
+        <span className={styles.email}>{email}</span>
       </div>
     </div>
   )

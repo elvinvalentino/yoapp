@@ -2,11 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { css, cx } from '@emotion/css';
 import { useTheme } from '@emotion/react';
+import { useDispatch } from 'react-redux';
 
+import { setSelectedRoom } from '../../redux/actions/chatAction';
 import unknownProfile from '../../assets/unknownProfile.jpg';
 
-const ChatListItem = ({ username, message, time }) => {
+const ChatListItem = ({ username, message, time, roomId }) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const styles = {
     root: css`
@@ -58,8 +61,10 @@ const ChatListItem = ({ username, message, time }) => {
     `
   }
 
+  const handleOnClick = roomId => dispatch(setSelectedRoom(roomId))
+
   return (
-    <div className={cx(styles.root)}>
+    <div className={cx(styles.root)} onClick={() => handleOnClick(roomId)}>
       <img className={styles.profileImage} src={unknownProfile} alt="unknown profile" />
       <div className={styles.profile}>
         <div className={styles.profileTop}>
@@ -75,7 +80,8 @@ const ChatListItem = ({ username, message, time }) => {
 ChatListItem.propTypes = {
   username: PropTypes.string.isRequired,
   time: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired
+  message: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 export default ChatListItem;
