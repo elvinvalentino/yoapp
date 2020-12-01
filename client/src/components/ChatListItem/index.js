@@ -4,10 +4,10 @@ import { css, cx } from '@emotion/css';
 import { useTheme } from '@emotion/react';
 import { useDispatch } from 'react-redux';
 
-import { setSelectedRoom } from '../../redux/actions/chatAction';
+import { setSelectedUser } from '../../redux/actions/chatAction';
 import unknownProfile from '../../assets/unknownProfile.jpg';
 
-const ChatListItem = ({ username, message, time, roomId }) => {
+const ChatListItem = ({ user, message, time }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -61,14 +61,14 @@ const ChatListItem = ({ username, message, time, roomId }) => {
     `
   }
 
-  const handleOnClick = roomId => dispatch(setSelectedRoom(roomId))
+  const handleOnClick = user => dispatch(setSelectedUser(user));
 
   return (
-    <div className={cx(styles.root)} onClick={() => handleOnClick(roomId)}>
+    <div className={cx(styles.root)} onClick={() => handleOnClick(user)}>
       <img className={styles.profileImage} src={unknownProfile} alt="unknown profile" />
       <div className={styles.profile}>
         <div className={styles.profileTop}>
-          <span className={styles.username}>{username}</span>
+          <span className={styles.username}>{user.username}</span>
           <span className={styles.time}>{time}</span>
         </div>
         <span className={styles.message}>{message}</span>
@@ -78,10 +78,9 @@ const ChatListItem = ({ username, message, time, roomId }) => {
 }
 
 ChatListItem.propTypes = {
-  username: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
   time: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
 }
 
 export default ChatListItem;

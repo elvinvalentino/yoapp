@@ -1,12 +1,17 @@
-import { SET_CHAT_LIST, SET_SELECTED_ROOM } from '../constants';
+import { SET_CHAT_ROOM, SET_SELECTED_USER, SET_MESSAGES } from '../constants';
 
-export const setChatList = chatList => ({
-  type: SET_CHAT_LIST,
-  payload: chatList
+export const setChatRooms = chatRooms => ({
+  type: SET_CHAT_ROOM,
+  payload: chatRooms
 });
 
-export const setSelectedRoom = roomId => ({
-  type: SET_SELECTED_ROOM,
-  payload: roomId
+export const setSelectedUser = user => ({
+  type: SET_SELECTED_USER,
+  payload: user
+})
+
+export const setMessages = messages => ({
+  type: SET_MESSAGES,
+  payload: messages
 })
 

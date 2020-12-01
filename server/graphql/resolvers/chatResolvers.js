@@ -7,11 +7,7 @@ const ChatRoom = require('../../models/ChatRoom.model');
 module.exports = {
   Query: {
     chatList: combine(isAuthenticated, async (_, __, { user }) => {
-      const chatRoom = await ChatRoom.find()
-        .and([
-          { users: user.id },
-          { 'messages.0': { $exists: true } }
-        ])
+      const chatRoom = await ChatRoom.find({ users: user.id })
         .sort('-updatedAt')
         .populate('users');
 
@@ -36,6 +32,7 @@ module.exports = {
       const chatRoom = await ChatRoom.findOne({ users: { $all: [userId, user.id] } });
 
       chatRoom.messages.push({
+        userId: user.id,
         username: user.username,
         body,
       })

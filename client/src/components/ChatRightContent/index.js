@@ -6,11 +6,11 @@ import NoSelectedUser from "../NoSelectedUser";
 import ChatRoom from "../ChatRoom";
 
 const ChatRightContent = () => {
-  const { selectedRoom } = useSelector(state => state.chat);
+  const { selectedUser } = useSelector(state => state.chat);
 
   return (
     <div className={styles.root}>
-      {selectedRoom ?
+      {selectedUser ?
         (
           <ChatRoom />
         )

@@ -9,6 +9,9 @@ const ChatRoomSchema = new Schema({
   ],
   messages: [
     {
+      userId: {
+        type: Schema.Types.ObjectId,
+      },
       username: {
         type: String,
         required: true

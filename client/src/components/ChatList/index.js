@@ -6,16 +6,16 @@ import moment from 'moment';
 
 import ChatListItem from '../ChatListItem';
 import { GET_CHAT_LIST_QUERY } from '../../graphql/Querys/chatQuery';
-import { setChatList } from '../../redux/actions/chatAction';
+import { setChatRooms } from '../../redux/actions/chatAction';
 import NoChatList from '../NoChatList';
 
 const ChatList = () => {
-  const { chatList } = useSelector(state => state.chat);
+  const { chatRooms } = useSelector(state => state.chat);
   const dispatch = useDispatch();
 
   const { loading } = useQuery(GET_CHAT_LIST_QUERY, {
     fetchPolicy: "network-only",
-    onCompleted: ({ chatList }) => dispatch(setChatList(chatList)),
+    onCompleted: ({ chatList: chatRooms }) => dispatch(setChatRooms(chatRooms)),
     onError: err => console.error(err),
   });
 
@@ -32,15 +32,13 @@ const ChatList = () => {
 
   return (
     <div className={styles.root}>
-      {chatList.length > 0 ?
-        chatList.map(chatList => (
+      {chatRooms.length > 0 ?
+        chatRooms.filter(chatRoom => chatRoom.lastMessage).map(chatRoom => (
           <ChatListItem
-            onClick={() => console.log('clicked')}
-            key={chatList.id}
-            roomId={chatList.id}
-            username={chatList.from.username}
-            message={chatList.lastMessage.body}
-            time={moment.unix(chatList.lastMessage.createdAt / 1000).format('L')}
+            key={chatRoom.id}
+            user={chatRoom.from}
+            message={chatRoom.lastMessage.body}
+            time={moment.unix(chatRoom.lastMessage.createdAt / 1000).format('L')}
           />
         ))
         :

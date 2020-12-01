@@ -22,6 +22,7 @@ module.exports = gql`
 
   type Message{
     id: ID!
+    userId: ID!
     username: String!
     body: String!
     createdAt: String!
@@ -32,7 +33,7 @@ module.exports = gql`
     users: [User]!
     messages: [Message]!
     from: User!
-    lastMessage: Message!
+    lastMessage: Message
   }
 
   type Query{
