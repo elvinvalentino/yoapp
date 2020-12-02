@@ -28,6 +28,10 @@ const Message = ({ message }) => {
     messageWrapperSelf: css`
       background: ${theme.color.primary.dark};
       color: #fff;
+      text-align: left;
+    `,
+    body: css`
+      text-align: left;
     `,
     time: css`
       position: absolute;
