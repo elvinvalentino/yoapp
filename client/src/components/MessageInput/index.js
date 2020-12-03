@@ -1,58 +1,51 @@
-import React from 'react';
-import { css } from '@emotion/css';
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '@emotion/react';
 
+import * as styles from './messageInput.styles';
+import { SEND_MESSAGE } from '../../graphql/Mutations/ChatMutation';
+
 
 const MessageInput = () => {
-  const theme = useTheme();
-  const styles = {
-    root: css`
-      display: flex;
-      align-items: center;
-      height: 60px; 
-      padding: 0 1em;
-    `,
-    input: css`
-      flex: 1;
-      padding: .7em 1.2em;
-      border-radius: 25px;
-      border: unset;
-      background: ${theme.color.secondary.light};
-      height: 45px;
-      font-size: 1em;
-      color: ${theme.color.primary.dark};
+  const [body, setBody] = useState('');
+  const { selectedUser } = useSelector(state => state.chat);
 
-      &::placeholder {
-        color: ${theme.color.secondary.dark};
-      }
-    `,
-    iconWrapper: css`
-      height: 45px;
-      width: 45px;
-      background: ${theme.color.primary.dark};
-      margin-left: .7em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      border-radius: 50%;
-      font-size: 1em;
-    `,
-    icon: css`
-      margin-right: 4px;
-    `
+  const [sendMessage] = useMutation(SEND_MESSAGE, {
+    variables: {
+      userId: selectedUser.id,
+      body
+    },
+    onError: err => console.log(err)
+  })
+
+  const theme = useTheme();
+
+  const handleOnChange = e => setBody(e.target.value);
+
+  const handleOnSubmit = e => {
+    e.preventDefault();
+    if (!body) return;
+
+    sendMessage();
+    setBody('');
   }
 
-
   return (
-    <div className={styles.root}>
-      <input className={styles.input} placeholder="Type a message..." type="text" />
-      <div className={styles.iconWrapper}>
+    <form className={styles.root} onSubmit={handleOnSubmit}>
+      <input
+        className={styles.input(theme)}
+        placeholder="Type a message..."
+        type="text"
+        value={body}
+        onChange={handleOnChange}
+      />
+      <button className={styles.iconWrapper(theme)}>
         <FontAwesomeIcon className={styles.icon} icon={faPaperPlane} />
-      </div>
-    </div>
+      </button>
+    </form>
   )
 }
 

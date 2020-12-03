@@ -6,8 +6,9 @@ import Message from '../Message';
 import Messageinput from '../MessageInput';
 
 const Messages = () => {
-  const { messages, loading } = useMessageQueryAndSubs();
+  const { loading, messages } = useMessageQueryAndSubs();
   const messagesEl = useRef();
+
 
   const scrollToBottom = () => {
     const scroll = messagesEl.current.scrollHeight - messagesEl.current.clientHeight;
@@ -26,33 +27,28 @@ const Messages = () => {
       flex-direction: column;
       height: calc(100vh - 70px);
     `,
-    messageWrapper: css`
+    messageContainer: css`
       padding: 0 1em;
       overflow-y: auto;
       flex: 1;
       max-height: calc(100vh - 120px);
+      display: flex;
+    `,
+    messageWrapper: css`
+      width: 100%;
+      margin-top: auto;
     `
   }
 
   return (
     <div className={styles.root}>
-      <div ref={messagesEl} className={styles.messageWrapper}>
-        {loading && 'loading...'}
-        {messages && messages.map(message => (
-          <Message key={message.id} message={message} />
-        ))}
-        {messages && messages.map(message => (
-          <Message key={message.id} message={message} />
-        ))}
-        {messages && messages.map(message => (
-          <Message key={message.id} message={message} />
-        ))}
-        {messages && messages.map(message => (
-          <Message key={message.id} message={message} />
-        ))}
-        {messages && messages.map(message => (
-          <Message key={message.id} message={message} />
-        ))}
+      <div ref={messagesEl} className={styles.messageContainer}>
+        <div className={styles.messageWrapper}>
+          {loading && 'loading...'}
+          {messages && messages.map(message => (
+            <Message key={message.id} message={message} />
+          ))}
+        </div>
       </div>
       <Messageinput />
     </div>

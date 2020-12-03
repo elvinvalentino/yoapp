@@ -54,6 +54,10 @@ const ChatListItem = ({ user, message, time }) => {
       font-weight: 400;
       font-size: .85em;
       color: #8A8188;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 250px;
     `,
     time: css`
       font-size: .8em;

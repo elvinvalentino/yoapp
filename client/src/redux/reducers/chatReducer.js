@@ -1,4 +1,4 @@
-import { SET_CHAT_ROOM, SET_SELECTED_USER, SET_MESSAGES } from '../constants';
+import { SET_CHAT_ROOM, SET_SELECTED_USER, SET_MESSAGES, SET_NEW_MESSAGE } from '../constants';
 
 const initialState = {
   chatRooms: [],
@@ -6,6 +6,8 @@ const initialState = {
 }
 
 const chatReducer = (state = initialState, action) => {
+  const chatRooms = [...state.chatRooms];
+  let index;
   switch (action.type) {
     case SET_CHAT_ROOM:
       return {
@@ -18,8 +20,7 @@ const chatReducer = (state = initialState, action) => {
         selectedUser: action.payload
       }
     case SET_MESSAGES:
-      const chatRooms = [...state.chatRooms];
-      const index = state.chatRooms.findIndex(room => room.id === action.payload.id);
+      index = state.chatRooms.findIndex(room => room.id === action.payload.id);
       chatRooms[index] = {
         ...chatRooms[index],
         messages: action.payload.messages
@@ -27,6 +28,30 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         chatRooms
+      }
+    case SET_NEW_MESSAGE:
+      index = state.chatRooms.findIndex(room => room.from.id === action.payload.from.id);
+      if (state.selectedUser && state.selectedUser.id === action.payload.from.id) {
+        chatRooms[index] = {
+          ...chatRooms[index],
+          lastMessage: action.payload.lastMessage,
+          messages: [
+            ...chatRooms[index].messages,
+            action.payload.lastMessage,
+          ]
+        };
+      } else {
+        chatRooms[index] = {
+          ...chatRooms[index],
+          lastMessage: action.payload.lastMessage,
+        };
+      }
+      return {
+        ...state,
+        chatRooms: [
+          chatRooms[index],
+          ...chatRooms.filter(room => room.from.id !== action.payload.from.id)
+        ]
       }
     default:
       return state;

@@ -11,7 +11,7 @@ const Message = ({ message }) => {
 
   const styles = {
     root: css`
-      margin: .5em 0;
+      margin: .25em 0;
     `,
     rootSelf: css`
       text-align: right;
@@ -22,7 +22,7 @@ const Message = ({ message }) => {
       display: inline-block;
       border: 1px solid ${theme.color.primary.dark};
       padding: .5em 3.2em .5em 1em;
-      border-radius: 50px;
+      border-radius: 25px;
       color: ${theme.color.primary.dark};
     `,
     messageWrapperSelf: css`

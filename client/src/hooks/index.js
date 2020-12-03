@@ -15,7 +15,10 @@ export const useForm = initialState => {
     }));
   }
 
-  return { formData, handleOnChange };
+  return {
+    formData,
+    handleOnChange
+  };
 }
 
 export const useMessageQueryAndSubs = () => {

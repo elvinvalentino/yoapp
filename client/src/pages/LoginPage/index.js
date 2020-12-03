@@ -15,6 +15,7 @@ import { useForm } from '../../hooks';
 import { LOGIN_MUTATION } from '../../graphql/Mutations/AuthMutation';
 import { createFlashMessage } from '../../redux/actions/flashMessageAction';
 import { login as loginAction, authError } from '../../redux/actions/authAction';
+import { changeSubscriptionToken } from '../../graphql/ApolloProvider';
 
 const LoginPage = () => {
   const [err, setErr] = useState(null);
@@ -33,6 +34,7 @@ const LoginPage = () => {
     update: (_, { data: { login: userData } }) => {
       dispatch(loginAction(userData));
       dispatch(createFlashMessage('Logged In'));
+      changeSubscriptionToken(localStorage.getItem('token'));
       history.push('/chat')
     },
     onError: (err) => {
