@@ -8,6 +8,7 @@ import ChatListItem from '../ChatListItem';
 import { GET_CHAT_LIST_QUERY } from '../../graphql/Querys/chatQuery';
 import { setChatRooms } from '../../redux/actions/chatAction';
 import NoChatList from '../NoChatList';
+import Loader from '../Loader';
 
 const ChatList = () => {
   const { chatRooms } = useSelector(state => state.chat);
@@ -28,7 +29,7 @@ const ChatList = () => {
     `
   }
 
-  if (loading) return <h1>loading</h1>
+  if (loading) return <Loader />
 
   return (
     <div className={styles.root}>

@@ -4,6 +4,7 @@ import { css } from '@emotion/css';
 import { useMessageQueryAndSubs } from '../../hooks'
 import Message from '../Message';
 import Messageinput from '../MessageInput';
+import Loader from '../Loader';
 
 const Messages = () => {
   const { loading, messages } = useMessageQueryAndSubs();
@@ -40,11 +41,12 @@ const Messages = () => {
     `
   }
 
+  if (loading) return <Loader />;
+
   return (
     <div className={styles.root}>
       <div ref={messagesEl} className={styles.messageContainer}>
         <div className={styles.messageWrapper}>
-          {loading && 'loading...'}
           {messages && messages.map(message => (
             <Message key={message.id} message={message} />
           ))}
