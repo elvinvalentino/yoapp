@@ -21,10 +21,15 @@ const chatReducer = (state = initialState, action) => {
       }
     case SET_MESSAGES:
       index = state.chatRooms.findIndex(room => room.id === action.payload.id);
-      chatRooms[index] = {
-        ...chatRooms[index],
-        messages: action.payload.messages
-      };
+      if (index === -1) {
+        chatRooms.push(action.payload)
+      } else {
+        chatRooms[index] = {
+          ...chatRooms[index],
+          messages: action.payload.messages
+        };
+      }
+
       return {
         ...state,
         chatRooms

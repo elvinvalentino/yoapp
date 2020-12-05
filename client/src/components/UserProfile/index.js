@@ -1,9 +1,11 @@
 import React from 'react';
 import { css, cx } from '@emotion/css';
+import { useTheme } from '@emotion/react';
 
 import unknownProfile from '../../assets/unknownProfile.jpg';
 
-const UserProfile = ({ className, username, email }) => {
+const UserProfile = ({ className, username, email, pinkText, onClick }) => {
+  const theme = useTheme();
 
   const styles = {
     root: css`
@@ -20,7 +22,7 @@ const UserProfile = ({ className, username, email }) => {
       display: flex;
       flex-direction: column;
       margin-left: 1em;
-      color: #fff;
+      color: ${pinkText ? theme.color.primary.dark : '#fff'};
       letter-spacing: .025em;
     `,
     username: css`
@@ -35,7 +37,7 @@ const UserProfile = ({ className, username, email }) => {
   }
 
   return (
-    <div className={cx(styles.root, className)}>
+    <div className={cx(styles.root, className)} onClick={onClick}>
       <img className={styles.profileImage} src={unknownProfile} alt="unknown profile" />
       <div className={styles.profile}>
         <span className={styles.username}>{username}</span>

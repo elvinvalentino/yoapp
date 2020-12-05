@@ -17,10 +17,10 @@ const Messages = () => {
   }
 
   useEffect(() => {
-    if (messages) {
+    if (messages && !loading) {
       scrollToBottom();
     }
-  }, [messages])
+  }, [messages, loading])
 
   const styles = {
     root: css`

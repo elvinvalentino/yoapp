@@ -16,7 +16,6 @@ export const input = theme => css`
   height: 45px;
   font-size: 1em;
   color: ${theme.color.primary.dark};
-  word-break: break-word;
 
   &::placeholder {
     color: ${theme.color.secondary.dark};

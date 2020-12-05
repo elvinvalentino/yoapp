@@ -1,10 +1,13 @@
 import React from 'react';
 import { css } from '@emotion/css';
+import { useDispatch } from 'react-redux';
 
 import Button from '../../components/Button';
 import Mail from '../../assets/mail.svg';
+import { openSearchModal } from '../../redux/actions/searchModalAction';
 
 const NoChatList = () => {
+  const dispatch = useDispatch();
   const styles = {
     root: css`
       width: 100%;
@@ -36,7 +39,12 @@ const NoChatList = () => {
     <div className={styles.root}>
       <span className={styles.text}>No Messages, yet</span>
       <img className={styles.img} src={Mail} alt="No Messages" />
-      <Button className={styles.button}>Start a conversation</Button>
+      <Button
+        className={styles.button}
+        onClick={() => dispatch(openSearchModal())}
+      >
+        Start a conversation
+      </Button>
     </div>
   )
 }

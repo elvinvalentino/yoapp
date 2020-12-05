@@ -32,7 +32,7 @@ export const useMessageQueryAndSubs = () => {
     onError: err => console.log(err)
   });
 
-  const messages = chatRooms.find(chatRoom => chatRoom.from.id === selectedUser.id).messages;
+  const messages = chatRooms.find(chatRoom => chatRoom.from.id === selectedUser.id)?.messages;
 
   useEffect(() => {
     if (!messages) {
@@ -42,6 +42,7 @@ export const useMessageQueryAndSubs = () => {
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       dispatch(setMessages(data.messages));
     }
   }, [data, dispatch]);

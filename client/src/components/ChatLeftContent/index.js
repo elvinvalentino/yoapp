@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@emotion/react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import * as styles from './chatLeftContent.styles';
 import UserProfile from '../UserProfile';
 import ChatList from '../ChatList';
-import SearchModal from '../SearchModal';
+import { openSearchModal } from '../../redux/actions/searchModalAction';
 
 const ChatLeftContent = () => {
   const { user } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
   const theme = useTheme();
   return (
     <div className={styles.root}>
@@ -18,7 +21,11 @@ const ChatLeftContent = () => {
           username={user.username}
           email={user.email}
         />
-        <SearchModal className={styles.searchIcon} />
+        <FontAwesomeIcon
+          className={styles.searchIcon}
+          icon={faSearch}
+          onClick={() => dispatch(openSearchModal())}
+        />
       </div>
       <ChatList />
     </div>

@@ -14,7 +14,8 @@ const Button = ({
   gutterRightMobile,
   gutterRight,
   style,
-  className
+  className,
+  onClick
 }) => {
   const theme = useTheme();
 
@@ -66,7 +67,7 @@ const Button = ({
   )
 
   return (
-    <button style={style} className={classNameRoot}>
+    <button style={style} className={classNameRoot} onClick={onClick}>
       {children}
     </button>
   )
@@ -86,6 +87,7 @@ Button.propTypes = {
   gutterBottomMobile: PropTypes.bool,
   gutterRight: PropTypes.bool,
   gutterRightMobile: PropTypes.bool,
+  onClick: PropTypes.func
 }
 
 export default Button;

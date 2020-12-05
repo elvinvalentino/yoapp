@@ -21,7 +21,7 @@ module.exports = {
         const newChatRoom = new ChatRoom({
           users: [userId, user.id]
         })
-        chatRoom = await newChatRoom.save();
+        chatRoom = await (await newChatRoom.save()).populate('users').execPopulate();
       }
 
       return chatRoom;
