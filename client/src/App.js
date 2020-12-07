@@ -10,6 +10,8 @@ import ChatPage from './pages/ChatPage';
 import Flash from './components/Flash';
 import SearchModal from './components/SearchModal';
 import ProfileModal from './components/ProfileModal';
+import PrivateRoute from './middleware/PrivateRoute';
+import AuthRoute from './middleware/AuthRoute';
 
 const App = () => {
   const { isOpen: searchModalIsOpen } = useSelector(state => state.searchModal);
@@ -20,10 +22,10 @@ const App = () => {
       <Route exact path='/signup' component={Navbar} />
       <Route exact path='/signin' component={Navbar} />
       <Switch>
-        <Route exact path='/' component={LandingPage} />
-        <Route exact path='/signup' component={RegisterPage} />
-        <Route exact path='/signin' component={LoginPage} />
-        <Route exact path='/chat' component={ChatPage} />
+        <AuthRoute exact path='/' component={LandingPage} />
+        <AuthRoute exact path='/signup' component={RegisterPage} />
+        <AuthRoute exact path='/signin' component={LoginPage} />
+        <PrivateRoute exact path='/chat' component={ChatPage} />
       </Switch>
       <Flash />
       {searchModalIsOpen && <SearchModal />}
