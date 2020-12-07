@@ -9,9 +9,11 @@ import RegisterPage from './pages/RegisterPage';
 import ChatPage from './pages/ChatPage';
 import Flash from './components/Flash';
 import SearchModal from './components/SearchModal';
+import ProfileModal from './components/ProfileModal';
 
 const App = () => {
-  const { isOpen } = useSelector(state => state.searchModal);
+  const { isOpen: searchModalIsOpen } = useSelector(state => state.searchModal);
+  const { isOpen: profileModalIsOpen } = useSelector(state => state.profileModal);
   return (
     <Router>
       <Route exact path='/' component={Navbar} />
@@ -24,7 +26,8 @@ const App = () => {
         <Route exact path='/chat' component={ChatPage} />
       </Switch>
       <Flash />
-      {isOpen && <SearchModal />}
+      {searchModalIsOpen && <SearchModal />}
+      {profileModalIsOpen && <ProfileModal />}
     </Router>
   )
 }

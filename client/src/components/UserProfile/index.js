@@ -4,7 +4,7 @@ import { useTheme } from '@emotion/react';
 
 import unknownProfile from '../../assets/unknownProfile.jpg';
 
-const UserProfile = ({ className, username, email, pinkText, onClick }) => {
+const UserProfile = ({ className, username, email, pinkText, onClick, imageOnClick }) => {
   const theme = useTheme();
 
   const styles = {
@@ -17,6 +17,7 @@ const UserProfile = ({ className, username, email, pinkText, onClick }) => {
       width: 50px;
       height: 50px;
       border-radius: 50%;
+      cursor: pointer;
     `,
     profile: css`
       display: flex;
@@ -38,7 +39,12 @@ const UserProfile = ({ className, username, email, pinkText, onClick }) => {
 
   return (
     <div className={cx(styles.root, className)} onClick={onClick}>
-      <img className={styles.profileImage} src={unknownProfile} alt="unknown profile" />
+      <img
+        className={styles.profileImage}
+        src={unknownProfile}
+        alt="unknown profile"
+        onClick={imageOnClick}
+      />
       <div className={styles.profile}>
         <span className={styles.username}>{username}</span>
         <span className={styles.email}>{email}</span>

@@ -9,17 +9,21 @@ import * as styles from './chatLeftContent.styles';
 import UserProfile from '../UserProfile';
 import ChatList from '../ChatList';
 import { openSearchModal } from '../../redux/actions/searchModalAction';
+import { openProfileModal } from '../../redux/actions/profileModalAction';
 
 const ChatLeftContent = () => {
   const { user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const theme = useTheme();
+
+
   return (
     <div className={styles.root}>
       <div className={styles.userProfileWrapper(theme)}>
         <UserProfile
           username={user.username}
           email={user.email}
+          imageOnClick={() => dispatch(openProfileModal(user))}
         />
         <FontAwesomeIcon
           className={styles.searchIcon}

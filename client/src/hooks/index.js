@@ -42,7 +42,6 @@ export const useMessageQueryAndSubs = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       dispatch(setMessages(data.messages));
     }
   }, [data, dispatch]);

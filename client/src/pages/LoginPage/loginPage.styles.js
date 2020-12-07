@@ -1,7 +1,7 @@
 import { css } from '@emotion/css';
 
 export const card = css`
-  margin-top: 0.8em;
+  margin: 4em auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -9,7 +9,6 @@ export const card = css`
   
   @media (max-width: 980px){
     width: 500px;
-    margin: 4em auto;
     padding: 3em;
   }
 

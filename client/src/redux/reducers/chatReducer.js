@@ -1,4 +1,4 @@
-import { SET_CHAT_ROOM, SET_SELECTED_USER, SET_MESSAGES, SET_NEW_MESSAGE } from '../constants';
+import { SET_CHAT_ROOM, SET_SELECTED_USER, SET_MESSAGES, SET_NEW_MESSAGE, USER_LOGOUT } from '../constants';
 
 const initialState = {
   chatRooms: [],
@@ -57,6 +57,12 @@ const chatReducer = (state = initialState, action) => {
           chatRooms[index],
           ...chatRooms.filter(room => room.from.id !== action.payload.from.id)
         ]
+      }
+    case USER_LOGOUT:
+      return {
+        ...state,
+        chatRooms: [],
+        selectedUser: null
       }
     default:
       return state;
