@@ -21,7 +21,7 @@ export const useForm = initialState => {
   };
 }
 
-export const useMessageQueryAndSubs = () => {
+export const useMessageQuery = () => {
   const { selectedUser, chatRooms } = useSelector(state => state.chat);
   const dispatch = useDispatch();
 

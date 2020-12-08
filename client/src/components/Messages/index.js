@@ -1,15 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import { css } from '@emotion/css';
+import { useTheme } from '@emotion/react';
 
-import { useMessageQueryAndSubs } from '../../hooks'
+import { useMessageQuery } from '../../hooks';
+import { getdateString, messageDateFormat } from '../../utils/dateFormat';
 import Message from '../Message';
 import Messageinput from '../MessageInput';
 import Loader from '../Loader';
 
 const Messages = () => {
-  const { loading, messages } = useMessageQueryAndSubs();
+  const { loading, messages } = useMessageQuery();
   const messagesEl = useRef();
-
+  const theme = useTheme();
+  let prevDate;
 
   const scrollToBottom = () => {
     const scroll = messagesEl.current.scrollHeight - messagesEl.current.clientHeight;
@@ -38,6 +41,14 @@ const Messages = () => {
     messageWrapper: css`
       width: 100%;
       margin-top: auto;
+    `,
+    date: css`
+      display: block;
+      color: ${theme.color.primary.dark};
+      text-transform: uppercase;
+      margin: 2em 0;
+      font-size: .9em;
+      text-align: center;
     `
   }
 
@@ -47,9 +58,23 @@ const Messages = () => {
     <div className={styles.root}>
       <div ref={messagesEl} className={styles.messageContainer}>
         <div className={styles.messageWrapper}>
-          {messages && messages.map(message => (
-            <Message key={message.id} message={message} />
-          ))}
+          {console.log('----------------------------')}
+          {messages && messages.map(message => {
+            const date = getdateString(message.createdAt);
+            console.log(date === prevDate)
+            if (date !== prevDate) {
+              prevDate = getdateString(message.createdAt);
+              return (
+                <>
+                  <span className={styles.date}>{messageDateFormat(message.createdAt)}</span>
+                  <Message key={message.id} message={message} />
+                </>
+              )
+            } else {
+              prevDate = getdateString(message.createdAt);
+              return <Message key={message.id} message={message} />
+            }
+          })}
         </div>
       </div>
       <Messageinput />

@@ -9,6 +9,7 @@ import { GET_CHAT_LIST_QUERY } from '../../graphql/Querys/chatQuery';
 import { setChatRooms } from '../../redux/actions/chatAction';
 import NoChatList from '../NoChatList';
 import Loader from '../Loader';
+import { chatListDateFormat } from '../../utils/dateFormat';
 
 const ChatList = () => {
   const { chatRooms } = useSelector(state => state.chat);
@@ -39,7 +40,7 @@ const ChatList = () => {
             key={chatRoom.id}
             user={chatRoom.from}
             message={chatRoom.lastMessage.body}
-            time={moment.unix(chatRoom.lastMessage.createdAt / 1000).format('L')}
+            time={chatListDateFormat(chatRoom.lastMessage.createdAt)}
           />
         ))
         :
