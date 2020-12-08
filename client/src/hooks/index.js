@@ -41,10 +41,10 @@ export const useMessageQuery = () => {
   }, [messages, getMessage]);
 
   useEffect(() => {
-    if (data) {
+    if (data && !messages) {
       dispatch(setMessages(data.messages));
     }
-  }, [data, dispatch]);
+  }, [data, dispatch, messages]);
 
   return {
     messages,

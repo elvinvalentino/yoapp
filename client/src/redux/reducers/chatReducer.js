@@ -36,7 +36,7 @@ const chatReducer = (state = initialState, action) => {
       }
     case SET_NEW_MESSAGE:
       index = state.chatRooms.findIndex(room => room.from.id === action.payload.from.id);
-      if (state.selectedUser && state.selectedUser.id === action.payload.from.id) {
+      if (chatRooms[index].hasOwnProperty('messages')) {
         chatRooms[index] = {
           ...chatRooms[index],
           lastMessage: action.payload.lastMessage,
