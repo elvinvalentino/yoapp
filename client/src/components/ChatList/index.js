@@ -2,7 +2,6 @@ import React from 'react';
 import { css } from '@emotion/css';
 import { useQuery } from '@apollo/client';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 
 import ChatListItem from '../ChatListItem';
 import { GET_CHAT_LIST_QUERY } from '../../graphql/Querys/chatQuery';

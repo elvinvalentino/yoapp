@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useTheme } from '@emotion/react';
 import { useMutation } from '@apollo/client';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
 import * as styles from './loginPage.styles';
 import Container from '../../layouts/Container';
@@ -15,14 +14,12 @@ import { useForm } from '../../hooks';
 import { LOGIN_MUTATION } from '../../graphql/Mutations/AuthMutation';
 import { createFlashMessage } from '../../redux/actions/flashMessageAction';
 import { login as loginAction, authError } from '../../redux/actions/authAction';
-import { changeSubscriptionToken } from '../../graphql/ApolloProvider';
 
 const LoginPage = () => {
   const [err, setErr] = useState(null);
 
   const dispatch = useDispatch();
   const theme = useTheme();
-  const history = useHistory();
 
   const { formData, handleOnChange } = useForm({
     email: '',
@@ -34,8 +31,7 @@ const LoginPage = () => {
     update: (_, { data: { login: userData } }) => {
       dispatch(loginAction(userData));
       dispatch(createFlashMessage('Logged In'));
-      changeSubscriptionToken(localStorage.getItem('token'));
-      history.push('/chat')
+      window.location.href = '/chat'
     },
     onError: (err) => {
       setErr(err.graphQLErrors[0].extensions.errors);

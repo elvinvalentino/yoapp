@@ -34,7 +34,7 @@ const wsLink = new WebSocketLink({
 });
 
 export const changeSubscriptionToken = token => {
-  if (wsLink.subscriptionClient.connectionParams.authToken === token) {
+  if (wsLink.subscriptionClient.connectionParams['Access-Token'] === token) {
     return
   }
 

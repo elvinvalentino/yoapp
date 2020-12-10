@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, Fragment } from 'react';
 import { css } from '@emotion/css';
 import { useTheme } from '@emotion/react';
 
@@ -58,17 +58,15 @@ const Messages = () => {
     <div className={styles.root}>
       <div ref={messagesEl} className={styles.messageContainer}>
         <div className={styles.messageWrapper}>
-          {console.log('----------------------------')}
           {messages && messages.map(message => {
             const date = getdateString(message.createdAt);
-            console.log(date === prevDate)
             if (date !== prevDate) {
               prevDate = getdateString(message.createdAt);
               return (
-                <>
+                <Fragment key={message.id}>
                   <span className={styles.date}>{messageDateFormat(message.createdAt)}</span>
-                  <Message key={message.id} message={message} />
-                </>
+                  <Message message={message} />
+                </Fragment>
               )
             } else {
               prevDate = getdateString(message.createdAt);
