@@ -20,7 +20,7 @@ const chatReducer = (state = initialState, action) => {
         selectedUser: action.payload
       }
     case SET_MESSAGES:
-      index = state.chatRooms.findIndex(room => room.id === action.payload.id);
+      index = state.chatRooms.findIndex(room => room.from.id === action.payload.from.id);
       if (index === -1) {
         chatRooms.push(action.payload)
       } else {
@@ -36,20 +36,27 @@ const chatReducer = (state = initialState, action) => {
       }
     case SET_NEW_MESSAGE:
       index = state.chatRooms.findIndex(room => room.from.id === action.payload.from.id);
-      if (chatRooms[index].hasOwnProperty('messages')) {
-        chatRooms[index] = {
-          ...chatRooms[index],
-          lastMessage: action.payload.lastMessage,
-          messages: [
-            ...chatRooms[index].messages,
-            action.payload.lastMessage,
-          ]
-        };
+      if (index !== -1) {
+        if (chatRooms[index].hasOwnProperty('messages')) {
+          chatRooms[index] = {
+            ...chatRooms[index],
+            lastMessage: action.payload.lastMessage,
+            messages: [
+              ...chatRooms[index].messages,
+              action.payload.lastMessage,
+            ]
+          };
+        } else {
+          chatRooms[index] = {
+            ...chatRooms[index],
+            lastMessage: action.payload.lastMessage,
+          };
+        }
       } else {
-        chatRooms[index] = {
-          ...chatRooms[index],
-          lastMessage: action.payload.lastMessage,
-        };
+        return {
+          ...state,
+          chatRooms: [action.payload, ...chatRooms]
+        }
       }
       return {
         ...state,

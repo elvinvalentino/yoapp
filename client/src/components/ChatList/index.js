@@ -33,7 +33,7 @@ const ChatList = () => {
 
   return (
     <div className={styles.root}>
-      {chatRooms.length > 0 ?
+      {chatRooms.filter(room => room.lastMessage !== null).length > 0 ?
         chatRooms.filter(chatRoom => chatRoom.lastMessage).map(chatRoom => (
           <ChatListItem
             key={chatRoom.id}

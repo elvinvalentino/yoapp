@@ -10,7 +10,7 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5000'
+  uri: 'https://yoappapi.herokuapp.com'
 });
 
 const authLink = setContext(() => {
@@ -24,9 +24,10 @@ const authLink = setContext(() => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:5000/graphql',
+  uri: 'wss://yoappapi.herokuapp.com/graphql',
   options: {
     reconnect: true,
+    timeout: 60000,
     connectionParams: () => ({
       'Access-Token': localStorage.getItem('token')
     })
