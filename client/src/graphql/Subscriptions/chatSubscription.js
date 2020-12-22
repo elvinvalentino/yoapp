@@ -5,6 +5,7 @@ export const NEW_MESSAGE = gql`
     newMessage{
       from{
         id
+        email
         username
       }
       lastMessage{
