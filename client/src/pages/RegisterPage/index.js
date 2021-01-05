@@ -28,7 +28,7 @@ const RegisterPage = () => {
     confirmPassword: '',
   });
 
-  const [register] = useMutation(REGISTER_MUTATION, {
+  const [register, { loading }] = useMutation(REGISTER_MUTATION, {
     variables: formData,
     update: () => {
       dispatch(createFlashMessage("Account Registered"));
@@ -89,7 +89,7 @@ const RegisterPage = () => {
               error={err}
             />
           </FormGroup>
-          <Button fluid mobileFluid className={styles.button}>SIGN UP</Button>
+          <Button fluid mobileFluid isLoading={loading} className={styles.button}>{loading ? 'SIGNING UP...' : 'SIGN UP'}</Button>
         </form>
       </Card>
     </Container>

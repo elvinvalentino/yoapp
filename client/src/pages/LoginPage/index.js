@@ -26,7 +26,7 @@ const LoginPage = () => {
     password: ''
   });
 
-  const [login] = useMutation(LOGIN_MUTATION, {
+  const [login, { loading }] = useMutation(LOGIN_MUTATION, {
     variables: formData,
     update: (_, { data: { login: userData } }) => {
       dispatch(loginAction(userData));
@@ -70,7 +70,7 @@ const LoginPage = () => {
                 error={err}
               />
             </FormGroup>
-            <Button fluid mobileFluid className={styles.button}>SIGN IN</Button>
+            <Button fluid mobileFluid isLoading={loading} className={styles.button}>{loading ? 'SIGNING IN...' : 'SIGN IN'}</Button>
           </form>
         </div>
       </Card>

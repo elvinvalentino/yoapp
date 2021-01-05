@@ -15,7 +15,8 @@ const Button = ({
   gutterRight,
   style,
   className,
-  onClick
+  onClick,
+  isLoading
 }) => {
   const theme = useTheme();
 
@@ -39,8 +40,8 @@ const Button = ({
   `;
 
   const btnPrimary = css`
-    border: 1px solid ${theme.color.primary.dark};
-    background-color: ${theme.color.primary.dark};
+    border: 1px solid ${!isLoading ? theme.color.primary.dark : theme.color.secondary.dark};
+    background-color: ${!isLoading ? theme.color.primary.dark : theme.color.secondary.dark};
     color: #fff;
     &:hover{
       background-color: ${theme.color.primary.light};
@@ -87,7 +88,8 @@ Button.propTypes = {
   gutterBottomMobile: PropTypes.bool,
   gutterRight: PropTypes.bool,
   gutterRightMobile: PropTypes.bool,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  isLoading: PropTypes.bool
 }
 
 export default Button;
